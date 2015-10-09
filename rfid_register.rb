@@ -75,9 +75,9 @@ class Application
   end
 
   def update_card
-    @c = @cards.find { |c| c.uid == @card_uid }
-    @c.timeout = Time.now.getutc.strftime('%H:%M')
-    puts "#{@c.uid} out at :#{@c.timeout}"
+    c = @cards.find { |c| c.uid == @card_uid }
+    c.timeout = Time.now.getutc.strftime('%H:%M')
+    puts "#{c.uid} out at :#{c.timeout}"
   end
 end
 
