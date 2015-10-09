@@ -50,21 +50,34 @@ class Application
   end
 
   def swipe_card(card_uid)
-    unless @cards.empty?
-      if @cards.any?{ |c| c.uid == card_uid }
-        @c = @cards.find{ |c| c.uid == card_uid }
-        @c.timeout = Time.now.getutc.strftime('%H:%M')
-        puts "#{@c.uid} out at :#{@c.timeout}"
-      else
-        c = Card.new(card_uid)
-        @cards << c
-    	puts "#{c.uid} in at :#{c.timein}"
-      end
-     else
-       c = Card.new(card_uid)
-       @cards << c
-       puts "#{c.uid} in at :#{c.timein}"
+    @card_uid = card_uid
+    if @cards.empty?
+      create_card
+    else
+      process_cards
     end
+  end
+
+  private
+
+  def process_cards
+    if @cards.any? { |c| c.uid == @card_uid }
+      update_card
+    else
+      create_card
+    end
+  end
+
+  def create_card
+    c = Card.new(@card_uid)
+    @cards << c
+    puts "#{c.uid} in at :#{c.timein}"
+  end
+
+  def update_card
+    c = @cards.find { |c| c.uid == @card_uid }
+    c.timeout = Time.now.getutc.strftime('%H:%M')
+    puts "#{c.uid} out at :#{c.timeout}"
   end
 end
 
