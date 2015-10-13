@@ -57,7 +57,7 @@ void loop() {
     if (    piccType != MFRC522::PICC_TYPE_MIFARE_MINI
         &&  piccType != MFRC522::PICC_TYPE_MIFARE_1K
         &&  piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
-        Serial.println(F("This sample only works with MIFARE Classic cards."));
+        //Serial.println(F("This sample only works with MIFARE Classic cards."));
         return;
     }
     // Halt PICC
