@@ -47,7 +47,9 @@ class Application
     }
       @db = SQLite3::Database.new("#{@db_credentials['db_name']}")
       puts "created db:#{@db_credentials['db_name']}"
-      prep_table
+      unless File.exist?(@db_credentials['db_name'])
+         prep_table
+      end
   end
 
   def read_serial
@@ -98,7 +100,6 @@ class Application
   end
 
   def show_cards
-    columns = nil
     @db.execute("SELECT * FROM hackspace_register")  do |row|
       puts row
     end
