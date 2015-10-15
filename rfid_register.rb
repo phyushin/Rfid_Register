@@ -2,6 +2,9 @@ require 'serialport'
 require 'json'
 require 'slop'
 require 'sqlite3'
+require 'active_record'
+require_relative 'config/environment'
+
 
 
 class Application
