@@ -1,13 +1,8 @@
-require 'serialport'
-require 'json'
-require 'slop'
-require 'sqlite3'
-
+require_relative 'environment'
 
 class Application
   def initalize
     initialze_options
-    init_db
     @params = {
       'baud' => 9600,
       'data_bits' => 8,
@@ -26,30 +21,6 @@ class Application
       o.string '-dbname', '--db_name', 'Name of the Database'
     end
     @port = @opts[:com]
-  end
-
-  def prep_table
-    sql ="create table hackspace_register (
-          card_uid varchar2(10),
-          time_in varchar2(10),
-          time_out varchar2(10)
-    );"
-    @db.execute(sql)
-    puts "db created"
-  end
-
-  def init_db
-    @db_credentials = {
-    'server_address' => @opts[:db_server],
-    'server_username' => @opts[:username],
-    'server_password' => @opts[:password],
-    'db_name' => @opts[:db_name]
-    }
-      @db = SQLite3::Database.new("#{@db_credentials['db_name']}")
-      puts "created db:#{@db_credentials['db_name']}"
-      unless File.exist?(@db_credentials['db_name'])
-         prep_table
-      end
   end
 
   def read_serial
@@ -104,28 +75,8 @@ class Application
       puts row
     end
   end
-
 end
 
-class Card
-  @uid = ''
-  def initialize(uid)
-    @uid = uid
-    @timein = Time.now.getutc.strftime('%H:%M')
-    @timeout = '23:00'
-    @diff = 0
-  end
-
-  attr_accessor :uid, :timein, :timeout, :diff
-end
-
-begin
-rescue Slop::MissingArgument
-  #print banner
-  puts 'missing argument'
-rescue Slop::UnknownArgument
-  puts @opts
-end
 app = Application.new
 app.initialze_options
 app.read_serial
