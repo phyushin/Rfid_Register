@@ -19,7 +19,6 @@ ActiveRecord::Schema.define do
   unless ActiveRecord::Base.connection.tables.include? "users"
     create_table :users do |t|
       t.string :uid
-      t.string :name
     end
   end
 
