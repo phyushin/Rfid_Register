@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
 
   def self.create_user(uid)
     puts "creating user"
-    User.create(uid: uid)
+    user = User.create(uid: uid)
+    user.process_session
   end
 
   def process_session
@@ -34,7 +35,6 @@ class User < ActiveRecord::Base
   end
 
   def work_out_diff
-    ##### TODO #####
-    true
+    ##### TODO ####
   end
 end
