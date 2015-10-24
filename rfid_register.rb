@@ -1,17 +1,17 @@
-require_relative 'environment'
+require_relative "environment"
 
 class Application
   def initalize
     initialze_options
     @params = {
-      'baud' => 9600,
-      'data_bits' => 8,
-      'stop_bits' => 1,
-      'parity' => SerialPort::NONE
+      "baud" => 9600,
+      "data_bits" => 8,
+      "stop_bits" => 1,
+      "parity" => SerialPort::NONE
     }
   end
 
-  def initialze_options
+   def initialze_options
     @opts = Slop.parse do |o|
       o.separator 'Basic Options'
       o.string '-c', '--com', 'Com Port to listen on Windows/*Nix'
@@ -27,52 +27,11 @@ class Application
     puts "Monitoring on #{@port}"
     @sp = SerialPort.new(@port, @params)
     @sp.read_timeout = 200
-    init_db
-    @cards = []
     loop do
       while (i = @sp.gets) do
         card_info = JSON.parse(i)
-        swipe_card("#{card_info['CardUID']}")
+        User.process_uid("#{card_info['CardUID']}")
       end
-    end
-  end
-
-  def swipe_card(card_uid)
-    @card_uid = card_uid
-    if @cards.empty?
-      create_card
-    else
-      process_cards
-    end
-  end
-
-  private
-
-  def process_cards
-    if @cards.any? { |c| c.uid == @card_uid }
-      update_card
-    else
-      create_card
-    end
-  end
-
-  def create_card
-    c = Card.new(@card_uid)
-    @cards << c
-    @db.execute("insert into hackspace_register values ( '#{c.uid}', '#{c.timein}', '23:00' );")
-    show_cards
-  end
-
-  def update_card
-    c = @cards.find { |c| c.uid == @card_uid }
-    c.timeout = Time.now.getutc.strftime('%H:%M')
-    @db.execute("update hackspace_register set time_out ='#{c.timeout}' where card_uid = '#{c.uid}'")
-    show_cards
-  end
-
-  def show_cards
-    @db.execute("SELECT * FROM hackspace_register")  do |row|
-      puts row
     end
   end
 end
@@ -80,4 +39,3 @@ end
 app = Application.new
 app.initialze_options
 app.read_serial
-app.init_db
