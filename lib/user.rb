@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def work_out_diff
+    HsSession.session_length(self)
+  end
+
   private
 
   def create_new_session
@@ -31,10 +35,6 @@ class User < ActiveRecord::Base
   def sign_out_user
     hs_sessions.last.update_attribute(:timeout, Time.now)
     puts "Signed out"
-    work_out_diff
-  end
-
-  def work_out_diff
-    ##### TODO ####
+    self.work_out_diff
   end
 end
