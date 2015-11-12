@@ -1,0 +1,2 @@
+class SendUid
+end
