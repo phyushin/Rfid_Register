@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-from lib.member import member
+
+from lib.member import Member
 from pirc522 import RFID
 
 run = True
@@ -9,7 +10,7 @@ util.debug = True
 
 def end_read(signal,frame):
     global run
-    print("\nCtril+C captured, ending read.")
+    print("\nCtrl+C captured, ending read.")
     run = False
     rdr.cleanup()
 
