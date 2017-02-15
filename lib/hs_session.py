@@ -18,5 +18,6 @@ class HsSession():
                          url,
                          body = encoded_data,
                          headers = {'Content-Type' : 'application/json'})
+        print (r.status)
 
 
