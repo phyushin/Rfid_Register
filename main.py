@@ -1,23 +1,12 @@
 #!/usr/bin/env python3
 
 from lib.member import Member
-from pirc522 import RFID
-
-run = True
-rdr = RFID()
-util = rdr.util()
-util.debug = True
-
-def end_read(signal,frame):
-    global run
-    print("\nCtrl+C captured, ending read.")
-    run = False
-    rdr.cleanup()
-
-signal.signal(signal.SIGINT, end_read)
-
-while run:
-    (error, uid) = rdr.anticoll()
-    m = Member(uid)
-    if not error:
-        print("Card read UID:{0}".format(m.cardUID))
+from lib.config import Config
+from lib.hs_session import HsSession
+ 
+config = Config()
+config.loadConfig()
+url = "{0}{1}".format(config.settings["base_url"], config.settings["api_path"])
+print(url)
+session = HsSession("D2B84BB5")
+session.post(url)
