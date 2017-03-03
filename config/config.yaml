@@ -1,3 +1,2 @@
-#base_url: 192.168.0.13:3000
-base_url: https://hmsrails.herokuapp.com/
+base_url: 192.168.0.13:3000
 api_path: /v1/hs_sessions
