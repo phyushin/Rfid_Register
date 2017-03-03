@@ -9,12 +9,11 @@ from pirc522 import RFID
 import lib.tag
 import sys, getopt, signal, time
 
-global run
 
 def end_read(signal,frame):
-    print("\nCtrl+C captured, ending read.")
-    run = False
+    print("\nCtrl+C captured, ending read.") 
     rdr.cleanup()
+    sys.exit(0)
 
 def main(argv):
     #load configuration file
