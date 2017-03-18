@@ -11,7 +11,7 @@ import sys, getopt, signal, time
 
 
 def end_read(signal,frame):
-    print("\nCtrl+C captured, ending read.") 
+    print("\nCtrl+C captured, ending read.")
     rdr.cleanup()
     sys.exit(0)
 
@@ -26,7 +26,7 @@ def main(argv):
             session = HsSession(arg)
             session.post(url)
     else:
-        print ("Starting")
+        print ("Hackspace Register:")
         while run:
             (error, data) = rdr.request()
             (error, uid) = rdr.anticoll()

@@ -3,13 +3,13 @@
 import urllib3
 import json
 
-class HsSession(): 
+class HsSession():
     uid = ""
     data = {}
 
     def __init__(self, UID):
         self.uid = UID
-        
+
     def post(self, url):
         http = urllib3.PoolManager()
         data = {"uid" : self.uid}
@@ -18,6 +18,9 @@ class HsSession():
                          url,
                          body = encoded_data,
                          headers = {'Content-Type' : 'application/json'})
-        print (r.status)
+        if not (r.status = 200):
+		print("Error - uid {0} not found").format(self.uid)
+
+
 
 
