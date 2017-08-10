@@ -36,7 +36,7 @@ def main(argv):
                 result = session.post(url)
                 if (result == 200):
                     print("Card UID {0} Read!\n".format(cardUID))
-                time.sleep(2)
+                time.sleep(5)
                 signal.signal(signal.SIGINT, end_read)
 
 if __name__ == "__main__":
