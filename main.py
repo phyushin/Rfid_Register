@@ -11,7 +11,7 @@ import sys, getopt, signal, time
 
 
 def end_read(signal,frame):
-    print("\nCtrl+C captured, ending read.") 
+    print("\nCtrl+C captured, ending read.")
     rdr.cleanup()
     sys.exit(0)
 
@@ -26,15 +26,17 @@ def main(argv):
             session = HsSession(arg)
             session.post(url)
     else:
-        print ("Starting")
+        print ("Hackspace Register:")
         while run:
             (error, data) = rdr.request()
             (error, uid) = rdr.anticoll()
             if not error:
                 cardUID = (format(uid[0],"x")+format(uid[1],"x")+format(uid[2],"x")+format(uid[3],"x")).upper()
                 session = HsSession(cardUID)
-                session.post(url)
-                time.sleep(10)
+                result = session.post(url)
+                if (result == 200):
+                    print("Card UID {0} Read!\n".format(cardUID))
+                time.sleep(2)
                 signal.signal(signal.SIGINT, end_read)
 
 if __name__ == "__main__":
