@@ -10,9 +10,10 @@ install by using  the following commands
 
 `sudo pip3 install spidev`
 
-`git clone https://github.com/ondryaso/pi-rc522.git
+Then:
+
+```
+git clone https://github.com/ondryaso/pi-rc522.git
 cd pi-rc522
-python3 setup.py install'
-
-
-
+python3 setup.py install
+```
