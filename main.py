@@ -35,7 +35,9 @@ def main(argv):
                 session = HsSession(cardUID)
                 result = session.post(url)
                 if (result == 200):
-                    print("Card UID {0} Read!\n".format(cardUID))
+                    print("Card UID {0} Read!".format(cardUID))
+                else:
+                    print("An error occured - please retry!")
                 time.sleep(5)
                 signal.signal(signal.SIGINT, end_read)
 
