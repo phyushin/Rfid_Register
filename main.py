@@ -37,7 +37,7 @@ def main(argv):
                 if (result == 200):
                     print("Card UID {0} Read!".format(cardUID))
                 else:
-                    print("An error occured - please retry!")
+                    print("An error occured reading card UID{0} - please retry!".format(cardUID))
                 time.sleep(5)
                 signal.signal(signal.SIGINT, end_read)
 
