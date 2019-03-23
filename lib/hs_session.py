@@ -5,6 +5,13 @@ import json
 import time
 import RPi.GPIO as GPIO
 
+def beep(length):
+    beeper = 18
+    GPIO.setup(beeper, GPIO.OUT)
+    GPIO.output(beeper, HIGH)
+    time.sleep(length)
+    GPIO.output(beeper, LOW)
+
 class HsSession():
     uid = ""
     data = {}
@@ -17,13 +24,14 @@ class HsSession():
         http = urllib3.PoolManager()
         data = {"uid" : self.uid}
         encoded_data = json.dumps(data).encode("utf-8")
+        beep(0.15)
         r = http.request('POST',
                          url,
                          body = encoded_data,
                          headers = {'Content-Type' : 'application/json'})
-        if not (r.status = 200):
-		print("Error - uid {0} not found").format(self.uid)
-
-
-
+       length = 0.15
+       if not (r.status = 200):
+           length = 0.85
+           print("Error - uid {0} not found").format(self.uid)
+       beep(length)
 
